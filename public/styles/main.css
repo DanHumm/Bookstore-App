@@ -1,0 +1,99 @@
+*{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: sans-serif;
+}
+
+section{
+    width: 100%;
+    height: 100vh;
+}
+
+section nav{
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+    box-shadow: 0 0 10px rgb(255, 189, 90);
+    background: #fff;
+    position: fixed;
+    left: 0;
+    z-index: 100;
+}
+
+section nav .logo img{
+    width: 100px;
+    cursor: pointer;
+    margin: 8px 0;
+  }
+
+section nav ul{
+    list-style: none;
+}
+
+section nav li{
+    display: inline-block;
+    padding: 0 10px;
+}
+
+section nav li a{
+    text-decoration: none;
+    color: black;
+}
+
+section .main{
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+    position: relative;
+    top: 15%;
+}
+
+section nav li a:hover{
+    color: rgb(255, 189, 90);
+}
+
+section nav .srchcrt_icon i{
+    margin: 0 5px;
+    font-size: 18px;
+}
+
+section nav .srchcrt_icon i{
+    margin: 0 5px;
+    font-size: 18px;
+}
+
+section nav .srchcrt_icon i:hover{
+    color: rgb(255, 189, 90);
+    cursor: pointer;
+}
+
+section .main{
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+    flex-direction: column;
+    flex-wrap: wrap;
+
+    max-width: 1200px;
+    margin:0 auto;
+    padding: 10px;
+}
+
+section .main h1{
+ position: relative;
+ font-size: 55px;
+ top: 80px;
+ left: 25px;
+ justify-content: space-around;
+}
+
+section .main h1 span{
+    color: rgb(255, 189, 90);
+}
+
+section .main .intro_img{
+    max-width: 100%;
+    height: auto;
+}
