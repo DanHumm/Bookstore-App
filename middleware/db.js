@@ -1,4 +1,7 @@
 // DB Middleware -DH
+// Decided to use Single connections due to app size and simplicity,
+// However for larger apps, more complex apps or apps with a large user base this should be converted to use Connection pooling for connection reuse and to reduce overhead.
+// Example could be const pool = mysql.CreatePool(/* Pool config /*) then use pool.getConnection and connection.release instead.
 const mysql = require('mysql12/promise');
 const bcrypt = require('bcrypt');
 //DB configuration
@@ -21,21 +24,22 @@ const createConnection = async () => {
 // --------------------------------------- FETCHING FROM DB --------------------------------------------------------------------------------------------------------------------------------------
 
 // Fetching session tokens from db
-const fetchToken = async (userID) => {
+const fetchTokenInfo = async (userID) => {
     try{
 
         connection = createConnection();
 
        // Use paramaterized query to grab stored token for supplied user id
-        const [rows, fields] = await connection.execute('SELECT hashed_token FROM users WHERE id = ?', [userID]);
+        const [rows, fields] = await connection.execute('SELECT token, expiry FROM sessions WHERE id = ?', [userID]);
         
         // Close connection once done 
         await connection.end();
 
-        // Get the hashed token from result set, or set it to null if no value was returned.
-        const token = rows.length > 0 ? rows[0].hashed_token : null;
-        
-        return token;
+        // Get the hashed token and expiry time from result set, or set it to null if no value was returned.
+       // const token = rows.length > 0 ? rows[0].token : null;
+       // const expiry = rows.length > 0 ? rows[1].expiry : null;
+        const tokenInfo = [rows.length > 0 ? rows[0].token : null, rows.length > 0 ? rows[1].expiry : null];
+        return tokenInfo;
 
     } catch (error) {
         console.error('Error fetching token', error);
@@ -68,7 +72,26 @@ const fetchSalt = async (userID) => {
     }
 
 };
+// ----------------------------------------------------- SETTING --------------------------------------------------------------------------------
 
+const extendExpiry = async (userID, timeout) => {
+    try{
+        // Create db connection
+        connection = createConnection();
+        
+        const newExpiry = new Date(Date().getTime + timeout);
+        await connection.execute('UPDATE sessions SET expiry = ? WHERE uid = ?', newExpiry.toISOString().slice(0,19).replace('T', ' '), userID); // Set new expiry, converts JS date object to string format expected by MySQL TIMESTAMP type. 
+        // Close db connection
+        await connection.end();
+        return newExpiry;
+    } catch (error) {
+       
+        console.error('Error setting new expiry:', error);
+       
+        throw error;
+    }
+
+};
 
 // ------------------------------------------------------ CHECKS ---------------------------------------------------------
 const checkCredentials = async (username, password) => {
@@ -97,6 +120,6 @@ const checkCredentials = async (username, password) => {
 };
 module.exports = {
     createConnection, 
-    fetchToken,
+    fetchTokenInfo,
      fetchSalt
 };
