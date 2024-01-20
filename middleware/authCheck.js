@@ -1,5 +1,5 @@
 // Auth check middleware [DH]
-const { fetchTokenInfo, fetchSalt, extendExpiry } = require('./db');
+const { fetchTokenInfo, fetchSalt, extendExpiry, expireSession } = require('./db');
 
 const app = express();
 app.use(cookieParser());
@@ -24,26 +24,36 @@ const sessionHandler = async (req, res, next) => {
         // Check is session token is valid and not expired
         if(checkSession(userId, sessionToken)){
             if(blockAuthedRoutes.includes(req.path)){ // If authed user is trying to navigate to registration or login when authed, redirect.
-                extendExpiry(userId, timeout);
+                newExpiry = extendExpiry(userId, sessionToken, timeout);
                 res.cookie('st', sessionToken, {
+                    domain: "127.0.0.1",
+                    path: "/",
                     expires: newExpiry,
                     httpOnly: true,
-                    secure: true
+                    secure: true,
+                    sameSite: strict
                 });
                 res.redirect('/');
             } else{
-                extendExpiry(userId, timeout)
+                newExpiry = extendExpiry(userId, sessionToken, timeout);
                 res.cookie('st', sessionToken, {
+                    domain: "127.0.0.1",
+                    path: "/",
                     expires: newExpiry,
                     httpOnly: true,
-                    secure: true
+                    secure: true,
+                    sameSite: strict
                 });
                 next();
             }            
         }
         else{
-            // Do Logic for clearing Cookies
+            res.clearCookie('st', {domain: '127.0.0.1', path: '/'});
+            res.clearCookie('uid', {domain: '127.0.0.1', path: '/'});
+            expireSession(sessionToken);
             res.redirect('/login');
+            // DEV NOTE: Once front end is more or less coded up and functional, revisit this. Research indicates this function
+            // Can be tempermental and must be implemented with the  same attributes as when it was created to ensure the cookie is removed.
         }
     }
     else if (sessionToken == undefined && userId == undefined){ // If these are undefined, then the cookies have not been set. Assume unauthed visitor.
@@ -54,7 +64,10 @@ const sessionHandler = async (req, res, next) => {
         }
     }
     else{
-        // Do Logic for clearing cookies
+        // Clearing cookies
+        res.clearCookie('st', {domain: '127.0.0.1', path: '/'});
+        res.clearCookie('uid', {domain: '127.0.0.1', path: '/'});
+        expireSession(sessionToken);
         res.redirect('/login');
     }
     

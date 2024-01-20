@@ -21,7 +21,7 @@ const createConnection = async () => {
 }
 
 
-// --------------------------------------- FETCHING FROM DB --------------------------------------------------------------------------------------------------------------------------------------
+// --------------------------------------- SELECTING FROM DB --------------------------------------------------------------------------------------------------------------------------------------
 
 // Fetching session tokens from db
 const fetchTokenInfo = async (userID) => {
@@ -72,15 +72,15 @@ const fetchSalt = async (userID) => {
     }
 
 };
-// ----------------------------------------------------- SETTING --------------------------------------------------------------------------------
+// ----------------------------------------------------- UPDATE --------------------------------------------------------------------------------
 
-const extendExpiry = async (userID, timeout) => {
+const extendExpiry = async (userID, token, timeout) => {
     try{
         // Create db connection
         connection = createConnection();
         
         const newExpiry = new Date(Date().getTime + timeout);
-        await connection.execute('UPDATE sessions SET expiry = ? WHERE uid = ?', newExpiry.toISOString().slice(0,19).replace('T', ' '), userID); // Set new expiry, converts JS date object to string format expected by MySQL TIMESTAMP type. 
+        await connection.execute('UPDATE sessions SET expiry = ? WHERE uid = ? AND token = ?', newExpiry.toISOString().slice(0,19).replace('T', ' '), userID, token); // Set new expiry, converts JS date object to string format expected by MySQL TIMESTAMP type. 
         // Close db connection
         await connection.end();
         return newExpiry;
@@ -91,6 +91,19 @@ const extendExpiry = async (userID, timeout) => {
         throw error;
     }
 
+};
+
+// ----------------------------------------------- DELETING ---------------------------------------------------
+
+const expireSession = async (token) => {
+    try{
+        connection = createConnection();
+        await connection.execute('DELETE FROM sessions WHERE token = ?', token) // Delete user sessions relating to token
+    }
+    catch (error) {
+        console.error('Error expiring session:', error);
+        throw error;
+    }
 };
 
 // ------------------------------------------------------ CHECKS ---------------------------------------------------------
@@ -121,5 +134,8 @@ const checkCredentials = async (username, password) => {
 module.exports = {
     createConnection, 
     fetchTokenInfo,
-     fetchSalt
+     fetchSalt,
+     checkCredentials,
+     extendExpiry,
+     expireSession 
 };
