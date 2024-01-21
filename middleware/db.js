@@ -48,21 +48,30 @@ const fetchTokenInfo = async (userID) => {
 
 };
 
-const fetchSalt = async (userID) => {
+const fetchSalt = async (userID, username = null) => {
     try{
         // Create db connection
         connection = createConnection();
         
+        // Checks if either userid or username has truthy values
+        if(userID || username){
+            const [rows, fields] = await connection.execute('SELECT salt FROM users WHERE id = ? OR username = ?', userID, username);
+        } else{
+            throw new Error('A username or user id is required.');
+        }
         // Get salt from db
-        const [rows, fields] = await connection.execute('SELECT salt FROM users WHERE id = ?', [userID]);
 
         // Close db connection
         await connection.end();
 
-        // Set salt to row value, or if result set is empty, set variable to null.
-        const salt = rows.length > 0 ? rows[0].salt : null;
-
-        return salt;
+        // Check if a salt value was retreived or not
+        if(rows.length === 0){
+            return 'a'; // Return random invalid salt value to prevent username enumeration via response timing attacks. This way, it still performs a credential check like it would with valid credentials but will always fail.
+        }
+        else{
+            const salt = rows[0].salt;
+            return salt;
+        }
 
     } catch (error) {
        
@@ -107,30 +116,42 @@ const expireSession = async (token) => {
 };
 
 // ------------------------------------------------------ CHECKS ---------------------------------------------------------
-const checkCredentials = async (username, password) => {
+const checkCredentials = async (reqUsername, reqPassword) => {
     try{
         // Create db connection
         connection = createConnection();
         
-        // Get salt from db
-        const [rows, fields] = await connection.execute('SELECT id, password FROM users WHERE username = ? AND password = ?', [userID]);
+        
+        if(reqUsername){
+            const salt = fetchSalt(reqUsername);
+
+        const result = await connection.execute('SELECT COUNT(*) AS count FROM users WHERE username = ? AND password = ?', reqUsername, reqPassword);
 
         // Close db connection
         await connection.end();
 
-        // Set salt to row value, or if result set is empty, set variable to null.
-        const salt = rows.length > 0 ? rows[0].salt : null;
+        // Store count variable. If 1, then there is a match. Otherwise no records match supplied inputs.
+        const count = result[0].count;
+        
 
-        return salt;
+        return count;
+        } else{
+            throw new Error('Username was not a valid value type. Expected String');
+        }
 
     } catch (error) {
        
-        console.error('Error fetching salt:', error);
+        console.error('Error checking credentials:', error);
        
         throw error;
     }
 
 };
+
+bcrypt.hash(pass, salt, (err, hash) => {
+    // FINISH THIS - 
+});
+
 module.exports = {
     createConnection, 
     fetchTokenInfo,
