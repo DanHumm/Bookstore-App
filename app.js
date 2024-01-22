@@ -7,6 +7,8 @@ const cookieParser = require('cookie-parser');
 const app = express();
 const PORT = process.env.PORT || 4040;
 
+// Future improvement could be made. In the future, i would consider using promises opposed to callback functions for easier cleaner code and better integrations with async/await
+
 // Statically serving files from the public dir
 app.use(express.static('public'));
 

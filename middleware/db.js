@@ -2,6 +2,7 @@
 // Decided to use Single connections due to app size and simplicity,
 // However for larger apps, more complex apps or apps with a large user base this should be converted to use Connection pooling for connection reuse and to reduce overhead.
 // Example could be const pool = mysql.CreatePool(/* Pool config /*) then use pool.getConnection and connection.release instead.
+
 const mysql = require('mysql12/promise');
 const bcrypt = require('bcrypt');
 //DB configuration
@@ -148,15 +149,49 @@ const checkCredentials = async (reqUsername, reqPassword) => {
 
 };
 
-bcrypt.hash(pass, salt, (err, hash) => {
-    // FINISH THIS - 
-});
+// ------------------------------------------------------------ INSERT ------------------------------------------------------
 
+const storeUserCreds = async (username, pass) =>{
+    const hPassSalt = hashPass(pass);
+    
+    try{
+        if(hPassSalt.every(item => item)){ // Checks every value in my array for truthy values.
+            connection = createConnection();
+            
+            // Gets current timestamp in the mysql format
+            const currentTime = new Date().toISOString().slice(0, 19).replace('T', ' ');
+            
+            await connection.execute(' INSERT INTO users username, password, created_at, salt VALUES ?, ?, ?, ?', username, hPassSalt[0], currentTime, hPassSalt[1]);
+
+            await connection.end();
+
+            console.log('Success! User created');
+            return true;
+        } else{
+            throw new Error('The hashed password or salt was of an invalid (falsy) value');
+        }
+    } catch (error) {
+        console.error('Error storing credentials:', error);
+        throw error;
+    }
+}
+
+const hashPass = async (pass) => {
+    const salt = await bcrypt.genSalt(10); // 10 is currently considered a good balance between performance and safety
+    bcrypt.hash(pass, salt, (err, hash) => {
+        if(err){
+            return false;
+        } else{
+            return [hash, salt];
+        }
+    })
+};
 module.exports = {
     createConnection, 
     fetchTokenInfo,
      fetchSalt,
      checkCredentials,
      extendExpiry,
-     expireSession 
+     expireSession,
+     storeUserCreds
 };
