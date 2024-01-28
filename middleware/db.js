@@ -3,7 +3,7 @@
 // However for larger apps, more complex apps or apps with a large user base this should be converted to use Connection pooling for connection reuse and to reduce overhead.
 // Example could be const pool = mysql.CreatePool(/* Pool config /*) then use pool.getConnection and connection.release instead.
 const crypto = require('crypto');
-const mysql = require('mysql12/promise');
+const mysql = require('mysql2/promise');
 const bcrypt = require('bcrypt');
 
 const secretkey = "9kiFzQSDZBwWJ9kiFzQSDZBwWJTkIOR0Tv5J2P8eJZUD0TkIOR0Tv5J2P8eJZUD0";
