@@ -70,13 +70,13 @@
         </div>
     </section>
     <div class="container">
-        <form class="login-form" autocomplete="off">
+        <form action="/login" method="POST" class="login-form" autocomplete="off"> <!-- Autocomplete off, prevents caching of sensitive data on public devices -->
             <fieldset>
                 <legend class="sr-only"> Account Details </legend>
                 
                 <div class="login-form__group">
                     <label for="username"> Username </label>
-                    <input name="username" id="password" type="text" placeholder="Enter Username..." class="login-form__username" required/>
+                    <input name="username" id="username" type="text" placeholder="Enter Username..." class="login-form__username" required/>
                     <span class="login-form__error"><i class="fa fa-info-circle" aria-hidden="true"></i>   Please enter a valid username</span>
                 </div>
                 <div class="login-form__group">

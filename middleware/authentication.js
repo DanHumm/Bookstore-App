@@ -1,8 +1,8 @@
 // Auth check middleware [DH]
 const { fetchTokenInfo, fetchSalt, extendExpiry, expireSession } = require('./db');
 
-const app = express();
-app.use(cookieParser());
+const app = require('express');
+
 const authenticatedRoutes = [
     '/basket',
     '/order-history'
@@ -13,7 +13,7 @@ const blockAuthedRoutes = [
 ];
 
 // 30 Min session timeout
-const timeout = 30 * 60 * 3000;
+const timeout = 30 * 60 * 1000;
 
 const sessionHandler = async (req, res, next) => {
     // Check for session token

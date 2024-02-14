@@ -52,6 +52,30 @@ const fetchTokenInfo = async (userID) => {
 
 };
 
+const fetchUserID = async (username) => {
+    try{
+
+        connection = createConnection();
+
+       // Use paramaterized query to grab stored userID for supplied username
+       const [rows, fields] = await connection.execute('SELECT id FROM users WHERE username = ?', username);
+        
+        // Close connection once done 
+        await connection.end();
+
+        if(rows.length > 0){ // If exists, return userid
+            return rows[0].id;
+        }else{
+            return null; // user doesnt exist
+        }
+
+    } catch (error) {
+        console.error('Error fetching username info', error);
+        throw error;
+    }
+
+};
+
 // Fetching session tokens from db
 const fetchTokenSig = async (userID) => {
     try{
@@ -200,7 +224,7 @@ const storeUserCreds = async (username, pass) =>{
     }
 }
 
-const genToken = async (userID) => {
+const genToken = async (userID = null) => {
     try{
         if(userID){
             // Generate timestamp for session checks.
@@ -215,7 +239,12 @@ const genToken = async (userID) => {
             const signature = hmac.update(token).digest('hex');
             if(signature){
                 connection = connection.createConnection();
-                await connection.execute('INSERT INTO sessions uid, token, signature, created_at, expiry VALUES ?, ?, ?, ?, ?', userID, token, signature, currentTime, expiryTime);
+                if(userID){
+                    await connection.execute('INSERT INTO sessions uid, token, signature, created_at, expiry VALUES ?, ?, ?, ?, ?', userID, token, signature, currentTime, expiryTime);
+                }
+                else{
+                    throw new Error('No truthy values supplied');
+                }
                 await connection.end();
                 console.log('Successfully generated & Stored token');
                 return token;

@@ -45,10 +45,12 @@ const sanitizeInput = (userInput, action) => {
 
 // Validates email input based on email regex above.
 const validateEmail = (reqEmail) => {
-    return emailRegex.test(reqEmail);
+    newEmail = sanitizeInput(reqEmail, 0);
+    return emailRegex.test(newEmail);
 };
 
 // Validates password input based on the password regex above.
 const validatePassword = (reqPass) => {
-    return passRegex.test(reqPass);
+    newPass = sanitizeInput(reqPass, 0);
+    return passRegex.test(newPass);
 };

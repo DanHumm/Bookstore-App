@@ -6,7 +6,7 @@ const bcrypt = require('bcrypt'); // For safe hashing of credentials
 const siteRoutes = require('./routes/routes'); // TEMPORARY - testing the conversion of my html static pages to ejs templates.
 const cookieParser = require('cookie-parser');
 const app = express();
-const PORT = process.env.PORT || 4040;
+const PORT = 4040;
 
 // Future improvement could be made. In the future, i would consider using promises opposed to callback functions for easier cleaner code and better integrations with async/await
 // It would also of been better for me to make my pages as a ejs template first rather than playing with html pages and then converting to ejs templates. But done now
@@ -15,7 +15,7 @@ const PORT = process.env.PORT || 4040;
 // Make view engine ejs
 app.set('view engine', 'ejs');
 app.use(express.static('public'));
-
+app.use(cookieParser());
 app.use('/', siteRoutes);
 
 app.listen(PORT, () => {

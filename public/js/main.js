@@ -55,12 +55,7 @@ window.addEventListener('DOMContentLoaded', function () {
 
 
 function validateForm(e) {
-    e.preventDefault();
+   // e.preventDefault();
 
     console.log(e);
 }
-
-
-
-let myLogo = document.querySelector('.agency-logo-container img');
-myLogo.setAttribute('src', 'https://expertise.live/wp-content/uploads/2024/01/Expertise_CRM_Plus.png');
