@@ -1,11 +1,11 @@
 
 
-/* CSS Reset */
+/* CSS Reset, Normalize styles across different browsers */
 @import './normalize.css';
 
-
+/* Custom root variable */
 :root {
-    /* Font Sizes (fs) */
+    /* Font Sizes & Responsive Headings (fs) */
     --fs-base: 1rem;
     --fs-heading-2: clamp(1.44rem;, 5vw, 2rem);
     --fs-heading-1: clamp(28px, 5vw, 38px);
