@@ -555,6 +555,15 @@ fieldset {
   display: none;
 }
 
+#loginErrorMessage {
+  color: red;
+  margin-left: 5px;
+}
+
+#loginErrorDiv {
+margin-left: 10rem;
+}
+
 .button-group {
   display: flex;
   width: 100%;

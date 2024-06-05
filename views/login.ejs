@@ -7,7 +7,7 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
     <link rel="stylesheet" href="https://use.typekit.net/gww3ncy.css">
     <link rel="stylesheet" type="text/css" href="/css/style.css">
-    <title>Login to your Account!</title>
+    <title>Login to your Account!</title>  
 </head>
 <body>
 <div class="offers-ribbon"> <span><em>SALE:</em> 50% OFF on selected books!</span></div>
@@ -70,7 +70,7 @@
         </div>
     </section>
     <div class="container">
-        <form action="/login" method="POST" class="login-form" autocomplete="off"> <!-- Autocomplete off, prevents caching of sensitive data on public devices -->
+        <form action="/login" method="POST" id="login-form" class="login-form" autocomplete="off"> <!-- Autocomplete off, prevents caching of sensitive data on public devices -->
             <fieldset>
                 <legend class="sr-only"> Account Details </legend>
                 
@@ -88,15 +88,63 @@
                     <button class="btn" type="submit"> Submit </button>
                     <p> Don't have an account? <a class="link--underline" href="/register">Register</a></button>
                 </div>
+                <div class="login-form__group" id="loginErrorDiv">
+                    <span id="loginError">
+                        <i aria-hidden="true"></i>
+                        <span id="loginErrorMessage"></span>  
+                      </span>
+                </div>
             </fieldset>
         </form>
     </div>
+    <script>
+        const loginForm = document.querySelector('.login-form');
+        const loginError = document.getElementById('loginErrorMessage'); 
+      
+        loginForm.addEventListener('submit', async (event) => {
+          event.preventDefault();
+          loginError.textContent = ''; // Clear any existing errors
+      
+          const formData = new FormData(loginForm);
+          const data = {};
+      
+          // Iterate over the form data and convert it to an object
+          for (const [key, value] of formData.entries()) {
+            data[key] = value;
+          }
+      
+          try {
+              const response = await fetch('/login', {
+                method: 'POST',
+                headers: {
+                  'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(data)
+              });
+              console.log(response);
+              if (response.ok) {
+               window.location.href = "/store";
+                // Login successful, handle redirection or other actions
+                // For example: window.location.href = '/dashboard';
+              } else {
+                var loginSpan = document.getElementById('loginError');
+                const errorData = await response.json();
+                loginError.textContent = errorData.error; 
+                loginSpan.setAttribute("visibility", "visible");
+              }
+          } catch (error) {
+              // Handle network errors or other exceptions
+              console.error('Error:', error);
+          }
+        });
+      </script>
 </main>
 <footer>
     <div class="container">
         <p> Copyright Dhumm's Bumbling Books</p>
     </div>
 </footer>
+
 <noscript>
     <!-- Show all content if no JS  -->
     <style>

@@ -6,6 +6,7 @@ const bcrypt = require('bcrypt'); // For safe hashing of credentials
 //const storeRoutes = require('./routes/bookstoreRoutes'); // For getting bookstore route related stuff
 const router = require('./routes/routes'); // TEMPORARY - testing the conversion of my html static pages to ejs templates.
 const cookieParser = require('cookie-parser');
+const bodyParser = require('body-parser');
 const app = express();
 const PORT = 4040;
 
@@ -17,6 +18,7 @@ const PORT = 4040;
 // Make view engine ejs
 app.set('view engine', 'ejs');
 app.use(express.urlencoded({ extended: true }));
+app.use(bodyParser.json());
 app.use(express.static('public'));
 app.use(cookieParser());
 app.use('/', router);

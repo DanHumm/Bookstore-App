@@ -2,6 +2,7 @@ const express = require('express');
 const app = express();
 const router = express.Router();
 const auth = require('../middleware/authentication.js');
+const bodyParser = require('body-parser');
 const validation = require('../middleware/validation.js');
 const { checkCredentials, genToken, fetchUserID, storeUserCreds } = require('../middleware/db.js');
 //const UserController = require('./controllers/userController.js');
@@ -51,7 +52,7 @@ router.post('/login', async (req, res) => {
         }
         
     } else {
-        res.render('login', { error: 'Invalid username or password input, please try again' });
+        return res.status(401).json({ error: 'Invalid username or password'});
         console.log("Failed-Login");
     }
 });
@@ -84,7 +85,7 @@ router.post('/register', async (req, res) => {
                 <div class="success-message">Success!</div>
                 <script>
                 setTimeout(function() {
-                    window.location.href = "/your-destination-url"; 
+                    window.location.href = "/login"; 
                   }, 2000);
                 </script>
               `);
@@ -105,6 +106,7 @@ router.get('/', (req, res) => {
 });
 
 router.get('/store', (req, res) => {
+    console.log(req.cookie);
     res.render('bookstore');
 });
 
