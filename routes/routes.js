@@ -6,11 +6,13 @@ const bodyParser = require('body-parser');
 const validation = require('../middleware/validation.js');
 const { checkCredentials, genToken, fetchUserID, storeUserCreds } = require('../middleware/db.js');
 //const UserController = require('./controllers/userController.js');
+const storeController = require('../controllers/storeController.js');
 
 
 /////////////////// INVESTIGATE SESSION EXPIRY ISSUE - 30 MINS AFTER LAST ACCESSED TIME INSTEAD OF 30 MINS AFTER NOW TIME
 
 router.post('/login', async (req, res) => {
+   if(!req.user){
     const {username, password} = req.body;
     //res.send('Submitted successfully'); // TEMP
     if(validation.validateUsername(username) && validation.validatePassword(password)){ // If they pass the sanitization and validation checks then proceed
@@ -42,6 +44,7 @@ router.post('/login', async (req, res) => {
                     sameSite: "strict"
                 });
                 console.log('Success, authenticated and session created');
+                req.user = {id: userId, username: username};
                 res.redirect('/store');
             }else{
                 res.render('login', { error: 'Incorrect username or password' });
@@ -55,9 +58,13 @@ router.post('/login', async (req, res) => {
         return res.status(401).json({ error: 'Invalid username or password'});
         console.log("Failed-Login");
     }
+} else {
+    res.redirect("/store");
+}
 });
 
 router.post('/register', async (req, res) => {
+    if(!req.user){
     const {username, email, password} = req.body;
     console.log(req.body);
     if(!validation.validateEmail(email)){
@@ -98,23 +105,44 @@ router.post('/register', async (req, res) => {
         }
         
     }
+} else {
+    res.redirect("/store");
+}
 });
+router.get('/store',  storeController.getBooks);
 
+router.get('/cart',  (req, res) => {
+    res.render('cart');
+});
 router.get('/', (req, res) => {
     res.render('index');
 
 });
+
+router.get('/api/books',  storeController.getBooksJson);
 
 router.get('/store', (req, res) => {
     console.log(req.cookie);
     res.render('bookstore');
 });
 
+router.post('/orders', bodyParser.json(), storeController.addOrder);
+
+router.get('/profile', (req, res) => {
+    res.render('profile');
+});
+
 router.get('/login', (req, res) => {
     res.render('login');
 });
 
-
+router.get('/checkout', (req,res) => {
+    if(req.user){
+        res.render('cart');
+    } else {
+        res.redirect('/login');
+    }
+});
 
 router.get('/register', (req, res) => {
     res.render('register');

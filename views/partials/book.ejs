@@ -1,0 +1,14 @@
+<div class="book" data-book-index="<%= book.id %>">
+    <div class="image-container">
+        <img src="<%= 'images/books/'.concat(book.imgURL) %>" class="book__image" alt="book">
+    </div>
+    <div class="book__head">
+        <h3 class="book__title"> <%= book.title %> </h3>
+        <p class="book__author"> <%= book.author %> </p>
+    </div>
+    <p class="book__price"> £<%= book.price %></p>
+    <div class="book-buttons">
+        <button class="btn btn--modal"> View </button>
+        <button class="btn btn-basket btn--secondary" data-index="<%= book.id %>"> Add to Basket</button>
+    </div>
+</div>

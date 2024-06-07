@@ -1,0 +1,82 @@
+[
+    {
+        "id": "1",
+        "title": "The Seven Wonders of the Ancient World (Hardback)",
+        "author": "Bettany Hughes",
+        "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut ac tincidunt metus. In hac habitasse platea dictumst. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia curae; Quisque suscipit nunc odio, ac molestie tortor vehicula sit amet. Duis vel laoreet ex. Ut vitae mi turpis. Praesent mattis at dolor sed faucibus.",
+        "price": "19.16",
+        "isbn": "1474610323",
+        "isbn-13": "978-1474610322",
+        "imgURL": "seven-seas.jpg"
+    },
+    {
+        "id": "2",
+        "title": "Ghosts of the Tsunami: Death and Life in Japan (Hardback)",
+        "author": "Richard Lloyd Parry",
+        "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut ac tincidunt metus. In hac habitasse platea dictumst. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia curae; Quisque suscipit nunc odio, ac molestie tortor vehicula sit amet. Duis vel laoreet ex. Ut vitae mi turpis. Praesent mattis at dolor sed faucibus.",
+        "price": "10.11",
+        "isbn": "1784704881",
+        "isbn-13": "978-1784704889",
+        "imgURL": "ghosts-of-the-tsunami.jpg"
+    },
+    {
+        "id": "3",
+        "title": "Godkiller - The Fallen Gods Trilogy Book 1 (Paperback)",
+        "author": "Hannah Kaner",
+        "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut ac tincidunt metus. In hac habitasse platea dictumst. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia curae; Quisque suscipit nunc odio, ac molestie tortor vehicula sit amet. Duis vel laoreet ex. Ut vitae mi turpis. Praesent mattis at dolor sed faucibus.",
+        "price": "14.83",
+        "isbn": "0008616965",
+        "isbn-13": "978-0008616960",
+        "imgURL": "godkiller.jpg"
+    },
+    {
+        "id": "4",
+        "title": "The Fury: Signed Edition (Hardback)",
+        "author": "Alex Michaelides ",
+        "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut ac tincidunt metus. In hac habitasse platea dictumst. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia curae; Quisque suscipit nunc odio, ac molestie tortor vehicula sit amet. Duis vel laoreet ex. Ut vitae mi turpis. Praesent mattis at dolor sed faucibus.",
+        "price": "9.49",
+        "isbn": "0241575532",
+        "isbn-13": "978-0241575536",
+        "imgURL": "the-fury.jpg"
+    },
+    {
+        "id": "5",
+        "title": "Dune (Paperback)",
+        "author": "Frank Herbert ",
+        "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut ac tincidunt metus. In hac habitasse platea dictumst. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia curae; Quisque suscipit nunc odio, ac molestie tortor vehicula sit amet. Duis vel laoreet ex. Ut vitae mi turpis. Praesent mattis at dolor sed faucibus.",
+        "price": "9.99",
+        "isbn": "0241575532",
+        "isbn-13": "978-0241575536",
+        "imgURL": "dune.webp"
+    },
+    {
+        "id": "6",
+        "title": "Abroad in Japan (Paperback)",
+        "author": "Chris Broad",
+        "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut ac tincidunt metus. In hac habitasse platea dictumst. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia curae; Quisque suscipit nunc odio, ac molestie tortor vehicula sit amet. Duis vel laoreet ex. Ut vitae mi turpis. Praesent mattis at dolor sed faucibus.",
+        "price": "8.99",
+        "isbn": "0241575532",
+        "isbn-13": "978-0241575536",
+        "imgURL": "japan.jpg"
+    },
+    {
+        "id": "7",
+        "title": "The Last Devil To Die (Paperback)",
+        "author": "Richard Osman",
+        "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut ac tincidunt metus. In hac habitasse platea dictumst. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia curae; Quisque suscipit nunc odio, ac molestie tortor vehicula sit amet. Duis vel laoreet ex. Ut vitae mi turpis. Praesent mattis at dolor sed faucibus.",
+        "price": "7.99",
+        "isbn": "0241575532",
+        "isbn-13": "978-0241575536",
+        "imgURL": "osman.webp"
+    },
+    {
+        "id": "8",
+        "title": "Deborah Meaden Talks Money - Talks (Paperback)",
+        "author": "Deborah Meaden",
+        "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut ac tincidunt metus. In hac habitasse platea dictumst. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia curae; Quisque suscipit nunc odio, ac molestie tortor vehicula sit amet. Duis vel laoreet ex. Ut vitae mi turpis. Praesent mattis at dolor sed faucibus.",
+        "price": "7.99",
+        "isbn": "0241575532",
+        "isbn-13": "978-0241575536",
+        "imgURL": "meaden.jpg"
+    }
+]

@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <%- include('./partials/head.ejs', {
+        title: "Login to your account"
+    }) %>
+</head>
+<body>
+    <%- include('./partials/navbar.ejs') %>
+<main>
+    <span class="notification" id="order">
+        <i class="fa-solid"></i>
+        <div class="text-group">
+            <h3></h3>
+            <p></p>
+        </div>
+    </span>
+<div class="content-wrapper">
+    <section class="site-title site-title--cart">
+        <div class="container">
+            <h1 class="site-title__title">Cart</h1>
+        </div>
+    </section>
+<section class="cart">
+    <div class="container">
+        <section class="cart-display">
+                <h2><span class="cart-indicator"></span> items in the cart</h2>
+                <ul class="cart-items"></ul>
+        </section>
+        <aside class="order-summary">
+            <section>
+                <h3>Delivery Options</h3>
+                <!-- Delivery Options -->
+                <label for="royal-second">Royal Mail Second Class £0.10 
+                <input value="0.10" type="radio" id="royal-second" name="delivery-options" checked />
+                </label>
+                <label for="royal-first">Royal Mail First Class £2.50 
+                <input value="2.50" type="radio" id="royal-first" name="delivery-options"/>
+                </label>
+                <label for="dpd-next">DPD Next Day £5.00 
+                <input value="5.00" type="radio" id="dpd-next" name="delivery-options"/>
+            </label>
+            </section>
+            <section>
+                <h3>Your Order</h3>
+                <p class="text-total"> Total to Pay </p>
+                <small> (Includes 20% VAT and Delivery) </small>
+                <!-- Delivery Options -->
+            </section>
+            <a class="btn" id="orderBtn"> Confirm Purchase </a>
+        </aside>
+    </form>
+    </div>
+    </section>
+    </div>
+</main>
+<script type="module" src="/js/checkout.js"></script>
+<%- include('./partials/footer.ejs') %>
+<noscript>
+    <!-- Show all content if no JS  -->
+</noscript>
+</body>
+</html>
+
+
+
+
+
+
+
