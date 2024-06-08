@@ -98,7 +98,6 @@ const checkSession = async (userId, usersToken) => {
 };
 
 async function authMiddleware(req, res, next) {
-    console.log("INSIDE AUTH MIDDLEWARE!!");
     const passedCookie = req.cookies.st;
     if(passedCookie){
         req.isAuthenticated = await checkToken(passedCookie);
@@ -108,7 +107,6 @@ async function authMiddleware(req, res, next) {
         console.log(req.isAuthenticated);
     } else {
         req.isAuthenticated = false;
-        console.log(req.isAuthenticated);
     }
 
     next();

@@ -17,7 +17,18 @@
             </svg>
         </a>
         <!-- Button Control For Search Dialogue and Basket Icon -->
-
+        <script>function logout() {
+            fetch('/logout', {
+                method: 'POST'
+            }).then(response => {
+                if(response.ok){
+                    window.location.href='/';
+                }
+                else{
+                        console.error('Logout Failed');
+                }
+            });
+        }</script>
         <!-- Website Navigation -->
         
         <nav class="site-nav">
@@ -37,7 +48,7 @@
                     <a href="profile" class="site-nav__link">My Profile</a>
                 </li>
                 <li class="site-nav__item">
-                    <a href="#" onclick="logout()">Logout</a>
+                    <a href="#" onclick="logout()" class="site-nav__link">Logout</a>
                 </li>
                 <% } else { %>
                 

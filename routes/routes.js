@@ -4,7 +4,7 @@ const router = express.Router();
 const auth = require('../middleware/authentication.js');
 const bodyParser = require('body-parser');
 const validation = require('../middleware/validation.js');
-const { checkCredentials, genToken, fetchUserID, storeUserCreds, checkToken } = require('../middleware/db.js');
+const { checkCredentials, genToken, fetchUserID, storeUserCreds, checkToken, expireSession } = require('../middleware/db.js');
 //const UserController = require('./controllers/userController.js');
 const storeController = require('../controllers/storeController.js');
 router.use(auth.authMiddleware);
@@ -22,14 +22,11 @@ router.post('/login', async (req, res) => {
                 console.log("Can confirm,, record was found");
                 const userId = await fetchUserID(username);
                 console.log("The user id from fetch user id is: "+userId);
-                const token = await genToken(userId);             
-                const expiry = new Date(new Date().getTime() + 30 * 60 * 1000)
-                console.log('-1-1-1-1-1-'+expiry);
-
+                const token = await genToken(userId);            
                 res.cookie('st', token, {
                     domain: "localhost",
                     path: "/",
-                    expires: new Date(new Date().getTime() + 30 * 60 * 1000),
+                    expires: new Date(Date.now() + 1800000),
                     httpOnly: true,
                  //Would implement in a HTTPS with strict transport security   secure: true,
                     sameSite: "strict"
@@ -37,7 +34,7 @@ router.post('/login', async (req, res) => {
                 res.cookie('st', token, {
                     domain: "localhost",
                     path: "/",
-                    expires: new Date(new Date().getTime() + 30 * 60 * 1000),
+                    expires: new Date(Date.now() + 1800000),
                     httpOnly: true,
                 //Would implement in a HTTPS with strict transport security    secure: true, 
                     sameSite: "strict"
@@ -150,6 +147,13 @@ router.get('/register', (req, res) => {
 });
 
 router.post('/logout', (req, res) => {
-
+    expireSession(req.cookies.st);
+    res.clearCookie('st', {
+        domain: 'localhost',
+        path: '/',
+        httpOnly: true,
+        sameSite: 'strict'
+    });
+    res.redirect('/');
 });
 module.exports = router;

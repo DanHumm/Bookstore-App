@@ -187,8 +187,9 @@ const extendExpiry = async (userID, token, timeout) => {
 const expireSession = async (token) => {
     try{
         const connection = await pool.getConnection();
-        await connection.execute('DELETE FROM sessions WHERE token = ?', token) // Delete user sessions relating to token
+        await connection.execute('DELETE FROM sessions WHERE token = ?', [token]) // Delete user sessions relating to token
         await connection.release();
+        console.log("Completed token deletion");
     }
     catch (error) {
         console.error('Error expiring session:', error);

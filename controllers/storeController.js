@@ -4,8 +4,6 @@ const cookieParser = require('cookie-parser');
 const auth = require('../middleware/authentication.js');
 
 exports.getBooks =  async (req, res, next) => {
-   console.log(req.cookies);
-   
     await auth.authMiddleware(req, res, () => {
         Catalog.getBooks((books) => {
             res.render('bookstore', {
