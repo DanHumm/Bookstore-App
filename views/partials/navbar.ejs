@@ -32,12 +32,20 @@
                 <li class="site-nav__item">
                     <a href="#" class="site-nav__link">About</a>
                 </li>
+                <% if(isAuthenticated) { %>
                 <li class="site-nav__item">
                     <a href="profile" class="site-nav__link">My Profile</a>
                 </li>
-                <!-- <li class="site-nav__item">
+                <li class="site-nav__item">
+                    <a href="#" onclick="logout()">Logout</a>
+                </li>
+                <% } else { %>
+                
+                <li class="site-nav__item">
                     <a href="/login" class="site-nav__link">Login</a>
-                </li> -->
+                </li>
+                <% } %>
+
             </ul>
             <!-- Search & Basket -->
             <ul class="site-nav__disclosure">

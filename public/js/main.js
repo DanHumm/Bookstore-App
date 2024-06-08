@@ -37,3 +37,16 @@ window.addEventListener('DOMContentLoaded', async function () {
 function validateForm() {
     console.log("Not validated!");
 }
+
+function logout() {
+    fetch('/logout', {
+        method: 'POST'
+    }).then(response => {
+        if(response.ok){
+            window.location.href='/';
+        }
+        else{
+                console.error('Logout Failed');
+        }
+    });
+}

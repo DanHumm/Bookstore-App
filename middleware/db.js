@@ -62,6 +62,20 @@ const fetchTokenInfo = async (userID) => {
 
 };
 
+const checkToken = async (token) => {
+    try{
+        const connection = await pool.getConnection();
+
+        const [rows] = await connection.execute('SELECT IF(EXISTS(SELECT 1 FROM sessions WHERE token = ?), 1, 0) AS tokenExists', [token]);
+        connection.release();
+
+        return rows[0].tokenExists === 1;
+    } catch (error) {
+        throw error;
+    }
+};
+
+
 const fetchUserID = async (username) => {
     try{
 
@@ -298,7 +312,8 @@ module.exports = {
      checkCredentials,
      extendExpiry,
      expireSession,
-     storeUserCreds
+     storeUserCreds,
+     checkToken
 };
 // TO DO:
 // Need to adjust db sessions table slightly to adjust for new gen token function.

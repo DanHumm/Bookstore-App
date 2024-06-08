@@ -4,11 +4,10 @@ const router = express.Router();
 const auth = require('../middleware/authentication.js');
 const bodyParser = require('body-parser');
 const validation = require('../middleware/validation.js');
-const { checkCredentials, genToken, fetchUserID, storeUserCreds } = require('../middleware/db.js');
+const { checkCredentials, genToken, fetchUserID, storeUserCreds, checkToken } = require('../middleware/db.js');
 //const UserController = require('./controllers/userController.js');
 const storeController = require('../controllers/storeController.js');
-
-
+router.use(auth.authMiddleware);
 /////////////////// INVESTIGATE SESSION EXPIRY ISSUE - 30 MINS AFTER LAST ACCESSED TIME INSTEAD OF 30 MINS AFTER NOW TIME
 
 router.post('/login', async (req, res) => {
@@ -109,13 +108,15 @@ router.post('/register', async (req, res) => {
     res.redirect("/store");
 }
 });
+
 router.get('/store',  storeController.getBooks);
 
 router.get('/cart',  (req, res) => {
-    res.render('cart');
+    res.render('cart', {isAuthenticated: req.isAuthenticated});
 });
 router.get('/', (req, res) => {
-    res.render('index');
+
+    res.render('index', {isAuthenticated: req.isAuthenticated});
 
 });
 
@@ -123,28 +124,33 @@ router.get('/api/books',  storeController.getBooksJson);
 
 router.get('/store', (req, res) => {
     console.log(req.cookie);
-    res.render('bookstore');
+    console.log("BEFORE RENDER TEMP");
+    res.render('bookstore', {isAuthenticated: req.isAuthenticated});
 });
 
 router.post('/orders', bodyParser.json(), storeController.addOrder);
 
 router.get('/profile', (req, res) => {
-    res.render('profile');
+    res.render('profile', {isAuthenticated: req.isAuthenticated});
 });
 
 router.get('/login', (req, res) => {
-    res.render('login');
+    res.render('login', {isAuthenticated: req.isAuthenticated});
 });
 
 router.get('/checkout', (req,res) => {
-    if(req.user){
-        res.render('cart');
+    if(req.isAuthenticated){
+        res.render('cart', {isAuthenticated: req.isAuthenticated});
     } else {
-        res.redirect('/login');
+        res.redirect('/login', {isAuthenticated: req.isAuthenticated});
     }
 });
 
 router.get('/register', (req, res) => {
-    res.render('register');
+    res.render('register', {isAuthenticated: req.isAuthenticated});
+});
+
+router.post('/logout', (req, res) => {
+
 });
 module.exports = router;

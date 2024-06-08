@@ -1,11 +1,11 @@
 // Auth check middleware [DH]
-const { fetchTokenInfo, fetchSalt, extendExpiry, expireSession } = require('./db');
+const { fetchTokenInfo, fetchSalt, extendExpiry, expireSession, checkToken } = require('./db');
 
 const app = require('express');
 
 const authenticatedRoutes = [
-    '/basket',
-    '/order-history'
+    '/cart',
+    '/profile'
 ];
 const blockAuthedRoutes = [
     '/login',
@@ -18,7 +18,7 @@ const timeout = 30 * 60 * 1000;
 const sessionHandler = async (req, res, next) => {
     // Check for session token
     const sessionToken = req.cookies?.['st'];
-    const userId = req.cookies?.['uid'];
+   // const userId = req.cookies?.['uid'];
     // Check user has a session cookie first
     if(sessionToken && userId){
         // Check is session token is valid and not expired
@@ -26,30 +26,30 @@ const sessionHandler = async (req, res, next) => {
             if(blockAuthedRoutes.includes(req.path)){ // If authed user is trying to navigate to registration or login when authed, redirect.
                 newExpiry = extendExpiry(userId, sessionToken, timeout);
                 res.cookie('st', sessionToken, {
-                    domain: "127.0.0.1",
+                    domain: "localhost",
                     path: "/",
                     expires: newExpiry,
                     httpOnly: true,
-                    secure: true,
+                    secure: false,
                     sameSite: strict
                 });
                 res.redirect('/');
             } else{
                 newExpiry = extendExpiry(userId, sessionToken, timeout);
                 res.cookie('st', sessionToken, {
-                    domain: "127.0.0.1",
+                    domain: "localhost",
                     path: "/",
                     expires: newExpiry,
                     httpOnly: true,
-                    secure: true,
+                    secure: false,
                     sameSite: strict
                 });
                 next();
             }            
         }
         else{
-            res.clearCookie('st', {domain: '127.0.0.1', path: '/'});
-            res.clearCookie('uid', {domain: '127.0.0.1', path: '/'});
+            res.clearCookie('st', {domain: 'localhost', path: '/'});
+            res.clearCookie('uid', {domain: 'localhost', path: '/'});
             expireSession(sessionToken);
             res.redirect('/login');
             // DEV NOTE: Once front end is more or less coded up and functional, revisit this. Research indicates this function
@@ -97,5 +97,21 @@ const checkSession = async (userId, usersToken) => {
    }
 };
 
+async function authMiddleware(req, res, next) {
+    console.log("INSIDE AUTH MIDDLEWARE!!");
+    const passedCookie = req.cookies.st;
+    if(passedCookie){
+        req.isAuthenticated = await checkToken(passedCookie);
+        if(!req.isAuthenticated){
+            req.isAuthenticated = false;
+        }
+        console.log(req.isAuthenticated);
+    } else {
+        req.isAuthenticated = false;
+        console.log(req.isAuthenticated);
+    }
 
-module.exports = { checkSession };
+    next();
+}
+
+module.exports = { checkSession, authMiddleware };

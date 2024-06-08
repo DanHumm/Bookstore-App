@@ -1,67 +1,12 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="Choose from a wide variety of interesting genres in our Online Store. 100% excitement, 50% Off - Ends soon.">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-    <link rel="stylesheet" href="https://use.typekit.net/gww3ncy.css">
-    <link rel="stylesheet" type="text/css" href="/css/style.css">
-    <title>Register for an Account!</title>
+    <%- include('./partials/head.ejs', {
+        title: "Login to your account"
+    }) %>
 </head>
 <body>
-<div class="offers-ribbon"> <span><em>SALE:</em> 50% OFF on selected books!</span></div>
-<header class="site-header">
-    <div class="container">
-        <button aria-label="navigation button" class="btn btn--hamburger">         
-            <svg class="icon" aria-hidden="true" aria-focusable="false" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                <path d="M4 18L20 18" stroke="#000000" stroke-width="2" stroke-linecap="round"/>
-                <path d="M4 12L20 12" stroke="#000000" stroke-width="2" stroke-linecap="round"/>
-                <path d="M4 6L20 6" stroke="#000000" stroke-width="2" stroke-linecap="round"/>
-            </svg>
-        </button>
-        <!-- Logo -->
-        <a class="site-logo" href="/"><img src="/images/quill.svg" alt="quill"></a>
-        <button aria-label="navigation button" class="btn btn--basket">
-            <p class="indicator"></p>          
-            <svg class="icon" aria-hidden="true" aria-focusable="false" fill="#000000"  viewBox="0 0 32 32" version="1.1" xmlns="http://www.w3.org/2000/svg">
-                <path d="M31.739 8.875c-0.186-0.264-0.489-0.422-0.812-0.422h-21.223l-1.607-5.54c-0.63-2.182-2.127-2.417-2.741-2.417h-4.284c-0.549 0-0.993 0.445-0.993 0.993s0.445 0.993 0.993 0.993h4.283c0.136 0 0.549 0 0.831 0.974l5.527 20.311c0.12 0.428 0.511 0.724 0.956 0.724h13.499c0.419 0 0.793-0.262 0.934-0.657l4.758-14.053c0.11-0.304 0.064-0.643-0.122-0.907zM25.47 22.506h-12.046l-3.161-12.066h19.253zM23.5 26.504c-1.381 0-2.5 1.119-2.5 2.5s1.119 2.5 2.5 2.5 2.5-1.119 2.5-2.5c0-1.381-1.119-2.5-2.5-2.5zM14.5 26.504c-1.381 0-2.5 1.119-2.5 2.5s1.119 2.5 2.5 2.5 2.5-1.119 2.5-2.5c0-1.381-1.119-2.5-2.5-2.5z"></path>
-            </svg>
-        </button>
-        <!-- Button Control For Search Dialogue and Basket Icon -->
-
-        <!-- Website Navigation -->
-        
-        <nav class="site-nav">
-            <!-- Links -->
-            <ul class="site-nav__menu">
-                <li class="site-nav__item">
-                    <a href="/" class="site-nav__link">Home</a>
-                </li>
-                <li class="site-nav__item">
-                    <a href="/store" class="site-nav__link">Store</a>
-                </li>
-                <li class="site-nav__item">
-                    <a href="#" class="site-nav__link">About</a>
-                </li>
-                <li class="site-nav__item">
-                    <a href="/login" class="site-nav__link">Login</a>
-                </li>
-            </ul>
-            <!-- Search & Basket -->
-            <ul class="site-nav__disclosure">
-                    <form id="search-form" class="site-nav__search">
-                      <input type="text" placeholder="Search.." name="search" autocomplete="off">
-                      <button aria-label="search" class="btn" type="submit">
-                            <svg class="icon" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                <path d="M15.7955 15.8111L21 21M18 10.5C18 14.6421 14.6421 18 10.5 18C6.35786 18 3 14.6421 3 10.5C3 6.35786 6.35786 3 10.5 3C14.6421 3 18 6.35786 18 10.5Z" stroke="#000000" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-                            </svg>
-                      </button>
-                    </form>
-            </ul>
-        </nav>
-    </div>
-</header>
+    <%- include('./partials/navbar.ejs') %>
 <main>
     <section class="site-title">
         <div class="container">
@@ -70,7 +15,7 @@
         </div>
     </section>
     <div class="container">
-        <form class="login-form" action="/register" method="POST" autocomplete="off">
+        <form class="login-form" autocomplete="off">
             <fieldset>
                 <legend class="sr-only"> Register your Account Details </legend>
                 
@@ -97,19 +42,9 @@
         </form>
     </div>
 </main>
-<footer>
-    <div class="container">
-        <p> Copyright Dhumm's Bumbling Books</p>
-    </div>
-</footer>
+<%- include('./partials/footer.ejs') %>
 <noscript>
     <!-- Show all content if no JS  -->
-    <style>
-        [data-state='no-js'] .disclosure__content {
-            display: block;
-        }
-    </style>
 </noscript>
-<script type="text/javascript" src="/js/main.js"></script>
 </body>
 </html>
