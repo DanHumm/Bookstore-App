@@ -1,12 +1,19 @@
 const Catalog = require('../models/catalog.js');
 const Orders = require('../models/orders.js');
+const cookieParser = require('cookie-parser');
+const auth = require('../middleware/authentication.js');
 
-exports.getBooks =  (req, res, next) => {
-    Catalog.getBooks((books) => {
-        res.render('bookstore', {
-            title: 'Store',
-            books: books
-       });
+exports.getBooks =  async (req, res, next) => {
+   console.log(req.cookies);
+   
+    await auth.authMiddleware(req, res, () => {
+        Catalog.getBooks((books) => {
+            res.render('bookstore', {
+                title: 'Store',
+                books: books,
+                isAuthenticated: req.isAuthenticated,
+           });
+        });
     });
 }
 

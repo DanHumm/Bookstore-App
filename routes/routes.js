@@ -122,12 +122,11 @@ router.get('/', (req, res) => {
 
 router.get('/api/books',  storeController.getBooksJson);
 
-router.get('/store', (req, res) => {
+router.get('/store', storeController.getBooks, (req, res) => {
     console.log(req.cookie);
     console.log("BEFORE RENDER TEMP");
-    res.render('bookstore', {isAuthenticated: req.isAuthenticated});
+    res.render('bookstoreee', {isAuthenticated: req.isAuthenticated});
 });
-
 router.post('/orders', bodyParser.json(), storeController.addOrder);
 
 router.get('/profile', (req, res) => {
