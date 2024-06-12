@@ -9,9 +9,6 @@
             </svg>
         </button>
         <!-- Logo -->
-        <% if(isAuthenticated) { %>
-        <a class="user-avatar" href="/profile"><img src="images/avatar.jpg" alt="user avatar"></a>
-        <% } %>
         <a href="./cart" aria-label="navigation button" class="btn btn--basket">  
             <p class="indicator"></p>       
             <svg class="icon" aria-hidden="true" aria-focusable="false" fill="#000000"  viewBox="0 0 32 32" version="1.1" xmlns="http://www.w3.org/2000/svg">
@@ -19,18 +16,6 @@
             </svg>
         </a>
         <!-- Button Control For Search Dialogue and Basket Icon -->
-        <script>function logout() {
-            fetch('/logout', {
-                method: 'POST'
-            }).then(response => {
-                if(response.ok){
-                    window.location.href='/';
-                }
-                else{
-                        console.error('Logout Failed');
-                }
-            });
-        }</script>
         <!-- Website Navigation -->
         
         <nav class="site-nav">
@@ -44,20 +29,10 @@
                 </li>
                 <li class="site-nav__item">
                     <a href="#" class="site-nav__link">About</a>
-                </li>
-                <% if(isAuthenticated) { %>
-                <li class="site-nav__item">
-                    <a href="profile" class="site-nav__link">My Profile</a>
-                </li>
-                <li class="site-nav__item">
-                    <a href="#" onclick="logout()" class="site-nav__link">Logout</a>
-                </li>
-                <% } else { %>
-                
+                </li>   
                 <li class="site-nav__item">
                     <a href="/login" class="site-nav__link">Login</a>
                 </li>
-                <% } %>
 
             </ul>
             <!-- Search & Basket -->

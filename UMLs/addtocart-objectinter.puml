@@ -1,0 +1,23 @@
+@startuml
+actor Customer as user
+participant "Bookstore App" as app
+participant Cart as cart
+
+user -> app : addBookToCart(book)
+activate app
+
+app -> cart : addItem(book)
+activate cart
+
+cart -> cart : updateTotal()
+activate cart
+
+cart <-- cart : newTotal
+deactivate cart
+
+app <-- cart : success
+deactivate cart
+
+app -> user : updateCartDisplay()
+deactivate app
+@enduml

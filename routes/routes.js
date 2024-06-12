@@ -109,7 +109,11 @@ router.post('/register', async (req, res) => {
 router.get('/store',  storeController.getBooks);
 
 router.get('/cart',  (req, res) => {
-    res.render('cart', {isAuthenticated: req.isAuthenticated});
+    if(req.isAuthenticated){
+        res.render('cart', {isAuthenticated: req.isAuthenticated});
+    } else {
+        res.redirect('/login');
+    }
 });
 router.get('/', (req, res) => {
 

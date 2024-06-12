@@ -1,0 +1,17 @@
+@startuml
+
+left to right direction
+
+actor Customer
+
+rectangle BookstoreApp {
+  Customer -- (Browse Store)
+  Customer -- (View Book Details)
+  Customer -- (Add to Cart)
+  Customer -- (View Cart)
+  Customer -- (Checkout)
+  Customer -- (Login)
+  Customer -- (Register)
+  Customer -- (View Profile)
+}
+@enduml

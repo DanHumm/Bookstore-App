@@ -1,0 +1,19 @@
+@startuml
+start
+:View Cart;
+if (Cart Empty?) then (yes)
+  :Display empty cart message;
+  stop
+else (no)
+  if (Logged In?) then (yes)
+    :Proceed to checkout;
+    :Enter payment details;
+    :Place Order;
+    :Display Order Confirmation;
+    stop
+  else (no)
+    :Prompt for login or registration;
+    stop 
+  endif
+endif
+@enduml

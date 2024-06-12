@@ -1,0 +1,51 @@
+@startuml
+
+class User {
+    - name: string
+    - email: string
+    - password: string
+    - salt: string
+    - cart: Cart
+    + register()
+    + login()
+    + viewProfile()
+    + addToCart(book: Book, quantity: int)
+    + removeFromCart(book: Book)
+    + clearCart()
+    + checkout()
+}
+
+class Book {
+    - title: string
+    - author: string
+    - price: float
+    - isbn: string
+    - description: string
+    - imageUrl: string
+}
+
+class Order {
+    - orderDate: Date
+    - totalPrice: float
+    - status: string 
+    - items: CartItem[]
+    + placeOrder()
+}
+
+class Cart {
+    - items: CartItem[]
+    + addItem(book: Book, quantity: int)
+    + removeItem(book: Book)
+    + calculateTotal(): float
+}
+
+class CartItem {
+    - book: Book
+    - quantity: int
+}
+
+User "1" -- "0..*" Order : places
+Order "1" -- "*" CartItem : contains
+CartItem "1" -- "1" Book : references
+User "1" -- "1" Cart : has
+@enduml
