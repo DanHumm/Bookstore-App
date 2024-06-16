@@ -1,6 +1,6 @@
 import Cart from './classes/Cart.js';
 import Order from './classes/Order.js';
-
+import showNotification from './utils/notification.js';
 let rendered = false;
 
 const cart = new Cart();
@@ -33,11 +33,14 @@ window.addEventListener('DOMContentLoaded', () => {
                 },
                 body: JSON.stringify(new Order(cart.getItems(), cart.getTotalPrice(), 2))
        });  
+
+            status = req.ok;
+            
             let data = await req.json();
             heading = data.heading;
             summary = data.summary;
             icon = data.icon;
-            status = data.completed
+            console.log("The status is: " + status);
         }
         else {
             heading = "Error! - No Items in Cart!";
@@ -289,19 +292,5 @@ selectBtns.forEach((button) => {
         
     })
 })
-
-function showNotification(notification, isAnimating) {
-
-    if(isAnimating) {
-        return;
-    }
-    isAnimating = true;
-    notification.classList.add('show');
-    setTimeout(() => {
-        notification.classList.remove('show');
-        isAnimating = false;
-    }, 4000)
-   
-}
 
 })

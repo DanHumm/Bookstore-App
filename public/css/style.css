@@ -67,6 +67,7 @@
   body {
     margin: 0;
     background-color: var(--secondary);
+    color: var(--primary);
   }
 
 main {
@@ -74,13 +75,15 @@ main {
   position:relative;
 }
 
-.content-wrapper {
-  padding:4rem 0;
-}
 
   ul {
     padding-left: 0;
     list-style:none;
+  }
+
+  li {
+    font-family: var(--ff-base);
+    font-size:var(--fs-base);
   }
 
   a {
@@ -135,6 +138,7 @@ main {
 
   h3 {
     font-size: var(--fs-heading-2);
+    font-family:var(--ff-base);
   }
 
 
@@ -229,7 +233,9 @@ p.indicator.show {
     width: 90%;
   }
 
-
+.cart-content-wrapper {
+  margin-bottom:6rem;
+}
 
   
 
@@ -239,7 +245,8 @@ p.indicator.show {
 
 .btn {
     position:relative;
-    display: inline-flex;
+    display: flex;
+    width:fit-content;
     padding: 0.85rem 1rem;
     background-color: var(--accent);
     font-family:'Roboto', sans-serif;
@@ -253,6 +260,15 @@ p.indicator.show {
     cursor: pointer;
 }
 
+.btn--small {
+  padding:0.4rem 0.8rem;
+  font-size:0.7rem;
+}
+
+.btn--outline {
+background:transparent;
+border:1px solid black;
+}
 
 /* Interaction Styles */
 
@@ -270,6 +286,7 @@ background: #dba908;
  border: 1px solid white;
  padding:0.8rem;
 }
+
 
 .btn--hamburger path {
     stroke: white;
@@ -337,6 +354,7 @@ flex-shrink: 0;
   width:70px;
   height:70px;
   border-radius:50%;
+  object-fit:cover;
 }
 
 
@@ -398,17 +416,16 @@ flex-shrink: 0;
 
 
 
-.site-title {
-  padding:3rem 0;
-}
-
 .site-title__title {
-margin: 0;
+margin: 2rem 0;
+font-size:65px;
 }
 
-.site-title--cart .site-title__title {
+.text--left {
   text-align:left;
 }
+
+.profile
 
 
 /* Promotional Banner Begins */
@@ -563,6 +580,7 @@ fieldset {
 
   .promo-banner {
     position:relative;
+    display: flex;
     min-height: 600px;
     background-image:url('../images/reading-med.jpg');
     background-position-x:0;
@@ -742,7 +760,7 @@ fieldset {
   opacity: 0;
   transition: 0.3s ease-in-out;
   border-radius:15px;
-  overflow-y:hidden;
+  overflow-y:auto;
 }
 
 
@@ -1201,6 +1219,230 @@ label, select {
 }
 
 
+
+.account-grid {
+  display: grid;
+  width:90%;
+  margin-left: auto;
+  margin-right: auto;
+  grid-template-columns: 1fr;
+  max-width:var(--max-page-width);
+  margin: 0 auto;
+  width:95%;
+  align-items:start;
+  margin-top:3rem;
+}
+
+.order-image {
+  width:80px;
+}
+
+.account-widget {
+  background: white;
+  border: 1px solid rgb(216, 216, 216);
+}
+
+.account-widget li {
+  font-weight:bold;
+  margin-bottom:0.45rem;
+}
+
+.account-widget li span {
+  font-weight:200;
+}
+
+.account-widget > section:not(.account-status) {
+  margin: 2rem;
+  padding: 0;
+}
+
+.account-widget h3 {
+  font-size:1.2rem;
+  color:var(--primary-dark);
+  text-decoration:underline;
+}
+
+
+.account-status {
+  display: grid;
+  grid-template-columns: 1fr 2fr;
+  background: #efefefef;
+  border-bottom:1px solid rgb(216, 216, 216);
+  gap: 1rem;
+}
+
+.account-status img {
+  border-radius:50%;
+  width:80px;
+  height:80px;
+  object-fit: cover;
+}
+
+.account-status-text {
+  display: flex;
+  flex-direction: column;
+  justify-content:center;
+  gap:0.2rem;
+}
+
+.account-status-text p {
+  margin:0;
+  font-weight:bold;
+}
+
+
+.account-privacy .btn {
+  margin-top:0.5rem;
+}
+
+.status.online {
+  color: green;
+}
+
+.recent-orders h2 {
+  margin: 0;
+  color:var(--primary);
+  margin-bottom:2rem;
+  margin-top:1.5rem;
+}
+
+.recent-orders h2 i {
+  font-size:2rem;
+}
+
+
+
+.order-items {
+  table-layout:fixed;
+  border-spacing: 0;
+  border-collapse: collapse;
+  margin:2rem;
+}
+
+
+.order-items, th, td {
+  border: 1px solid rgb(209 209 209);
+}
+
+.order-items th,
+.order-items td:not(.image-cell) {
+  width:25%;
+}
+
+.image-cell {
+  text-align:center;
+  width: auto;
+  min-width: 80px;
+  padding:  0.25rem;
+}
+
+
+.image-cell img {
+  width:85px;
+}
+
+
+.reveal-more {
+  position:absolute;
+  width:100%;
+  bottom:0;
+  left: 0;
+  z-index:2;
+  height:180px;
+  display: flex;
+  align-items:flex-end;
+  justify-content:center;
+  background: linear-gradient(360deg, #ffffff, #ffffff00);
+  text-align:center;
+}
+
+
+.reveal-more .btn {
+  width: 70%;
+  text-align: center;
+  justify-content: center;
+  margin-bottom:2rem;
+  opacity:0;
+  filter:grayscale(1);
+  transition: 0.15s ease-in-out;
+}
+
+.order-card:hover .reveal-more .btn:hover {
+  filter:grayscale(0);
+  opacity: 1;
+}
+
+.order-card {
+  position:relative;
+  background: white;
+  max-height:340px;
+  padding-bottom: 100px;
+  overflow:hidden;
+  margin-bottom:5rem;
+  transition:0.7s ease-in-out;
+}
+
+.order-card:hover .reveal-more button {
+  opacity:0.8;
+}
+
+.order-card:last-child {
+  margin-bottom: 0;
+}
+
+.order-card.reveal {
+  max-height:none;
+}
+
+
+.order-meta {
+  display: flex;
+  align-items:center;
+  width: 100%;
+  gap:1.5rem;
+  padding:1rem;
+  background: #bbbbbb14;
+  border-bottom:1px solid rgb(216 216 216 / 27%);
+}
+
+.order-meta p {
+  font-weight:bold;
+}
+
+.order-meta i {
+  font-size:1.5rem;
+  color:var(--primary-dark);
+  cursor:pointer;
+}
+
+.order-meta i:hover {
+  text-shadow:#000;
+}
+
+.order-meta p > span {
+  font-weight: normal;
+}
+
+.order-meta p:last-of-type {
+  margin-left: auto;
+}
+
+.sign-out {
+  display:block;
+  border-top:1px solid #efefefef;
+  padding:1rem 2rem;
+}
+
+.sign-out:hover {
+  cursor:pointer;
+  background:var(--accent);
+  text-decoration:underline;
+}
+
+
+
+
+
 @media screen and (min-width:800px) {
 
   .cart-item {
@@ -1217,6 +1459,29 @@ label, select {
   .cart-item img {
     max-width: 100%;
   }
+
+
+  .account-grid {
+    grid-template-columns: minmax(200px, 25%) auto;
+    gap:3rem;
+    margin-bottom: 5rem;
+  }
+  
+
+  .order-items {
+    white-space:nowrap;
+  }
+
+  .order-items th,
+  .order-items td:not(.image-cell) {
+    width:20%;
+    padding:1rem;
+  }
+  
+  .image-cell {
+    padding:1rem;
+  }
+
  }
  
  
@@ -1230,4 +1495,7 @@ label, select {
   }
 
 }
+
+
+
 

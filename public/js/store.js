@@ -1,6 +1,8 @@
 
 import Cart from './classes/Cart.js';
 
+
+
 window.addEventListener('DOMContentLoaded', async function () {
 
 const cart = new Cart();
@@ -165,3 +167,4 @@ function showNotification(notification, isAnimating) {
     }, 1000)
    
 }
+

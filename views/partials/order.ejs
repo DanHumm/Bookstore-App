@@ -1,0 +1,29 @@
+<li class="order-card" data-order-number="<%= order.orderNo %>">
+<div class="order-meta">
+    <p>Order Number <span class="orderNo"><%= order.orderNo %></span></p>
+    <p>Order Date <span class="orderDate"><%= new Date(order.date).toLocaleDateString("en-GB") %></span></p>
+    <p>Total: <span class="orderTotal">£<%= order.total %></span></p>
+    <i class="fa fa-times-circle cancel-order-button" title="Cancel Order" aria-hidden="true"></i>
+</div>
+<table class="order-items">
+    <tr>
+        <th></th>
+        <th>Item ID</th>
+        <th>Product</th>
+        <th>Qty</th>
+        <th>Price</th>
+    </tr>
+     <%  JSON.parse(order.items).forEach((item) => { %>
+        <tr>
+            <td class="image-cell"><img src="<%= item.imgUrl %>" class="order-image"></td>
+            <td> <%= item.id %></td>
+            <td> <%= item.name %></td>
+            <td> <%= item.quantity %> </td>
+            <td> £<%= item.price %> </td>
+        </tr>
+    <%})%> 
+</table>
+<div class="reveal-more">
+    <button class="btn btn--primary">Show More</button>
+</div>
+</li>

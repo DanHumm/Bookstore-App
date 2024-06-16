@@ -2,18 +2,65 @@
 <html lang="en">
 <head>
     <%- include('./partials/head.ejs', {
-        title: "Login to your account"
+        title: "Profile - Customise your Profile, View Orders, and More!"
     }) %>
 </head>
 <body>
     <%- include('./partials/navbar.ejs') %>
 <main>
-    <section class="site-title">
-        <div class="container">
-            <i class="fa fa-user" aria-hidden="true"></i>
-            <h1 class="site-title__title">Profile</h1>
+    <span class="notification" id="notification">
+        <i class="fa-solid"></i>
+        <div class="text-group">
+            <h3></h3>
+            <p></p>
         </div>
-    </section>
+    </span>
+    <div class="container">
+        <h1 class="site-title__title text--left"><%= title %></h1>
+    </div>
+    <div class="account-grid">
+        <aside class="account-widget">
+             <section class="account-status">
+                <img src="https://ichef.bbci.co.uk/news/976/cpsprodpb/050B/production/_103119210_lazytown2.jpg" alt="user">
+                <div class="account-status-text">
+                    <p> test </p>
+                    <p> Status: <span class="status online">Online</span></p>
+                </div>
+             </section>
+             <section class="account-details">
+                <h3> Account Details </h3>
+                <ul>
+                    <li>Birthday: <span>01/01/1901</span></li>
+                    <li>Phone: <span>123456789</span></li>
+                    <li>Email: <span>email@example.com</span></li> 
+                </ul>
+             </section>
+
+             <section class="account-privacy">
+                <h3> Privacy & Security </h3>
+                <ul>
+                    <li>
+                        Password: <span>**********</span>
+                        <a href="/change-password" class="btn btn--small btn--outline">Change Password</a>
+                    
+                    </li>
+                </ul>
+             </section>
+             <a href="#" title="Sign out of your account" class="sign-out">Sign Out</a>
+        </aside>
+        <section class="recent-orders">
+            <h2><i class="fa-solid fa-arrow-down-wide-short"></i> Recent Orders</h2>
+            <ul class="orders">
+                <% if(orders.length > 0) { %>
+                    <% orders.forEach((order) => { %>
+                        <%- include('./partials/order.ejs', {order: order}) %>
+                   <% }) %>
+                <% } else { %>
+                    <li> No orders to display!</li>
+                <% } %>
+            </ul>
+        </section>
+    </div>
     <div class="container">
        
     </div>

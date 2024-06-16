@@ -76,21 +76,32 @@ const checkToken = async (token) => {
 };
 
 
-const fetchUserID = async (username) => {
+const fetchUserID = async (username, token = null) => {
     try{
 
         const connection = await pool.getConnection();
+        if(token){
+            const [rows, fields] = await connection.execute('SELECT user_id FROM sessions WHERE token = ?', [token]);
+            await connection.release();
 
-       // Use paramaterized query to grab stored userID for supplied username
+            if(rows.length > 0){
+                return rows[0].user_id;
+            } else {
+                return null;
+            }
+        } else {
+                   // Use paramaterized query to grab stored userID for supplied username
        const [rows, fields] = await connection.execute('SELECT id FROM users WHERE username = ?', [username]);
-        // Close connection once done 
-        await connection.release();
+       // Close connection once done 
+       await connection.release();
 
-        if(rows.length > 0){ // If exists, return userid
-            return rows[0].id;
-        }else{
-            return null; // user doesnt exist
+       if(rows.length > 0){ // If exists, return userid
+           return rows[0].id;
+       }else{
+           return null; // user doesnt exist
+       }
         }
+
 
     } catch (error) {
         console.error('Error fetching username info', error);

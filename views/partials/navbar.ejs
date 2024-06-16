@@ -9,8 +9,10 @@
             </svg>
         </button>
         <!-- Logo -->
-        <% if(isAuthenticated) { %>
-        <a class="user-avatar" href="/profile"><img src="images/avatar.jpg" alt="user avatar"></a>
+        <% if (isAuthenticated) { %>
+            <a class="user-avatar" href="/profile"><img src="../images/avatar.jpg" alt="user avatar"></a>
+        <% } else { %>
+        
         <% } %>
         <a href="./cart" aria-label="navigation button" class="btn btn--basket">  
             <p class="indicator"></p>       
@@ -19,18 +21,7 @@
             </svg>
         </a>
         <!-- Button Control For Search Dialogue and Basket Icon -->
-        <script>function logout() {
-            fetch('/logout', {
-                method: 'POST'
-            }).then(response => {
-                if(response.ok){
-                    window.location.href='/';
-                }
-                else{
-                        console.error('Logout Failed');
-                }
-            });
-        }</script>
+
         <!-- Website Navigation -->
         
         <nav class="site-nav">
@@ -45,20 +36,18 @@
                 <li class="site-nav__item">
                     <a href="#" class="site-nav__link">About</a>
                 </li>
-                <% if(isAuthenticated) { %>
-                <li class="site-nav__item">
-                    <a href="profile" class="site-nav__link">My Profile</a>
-                </li>
-                <li class="site-nav__item">
-                    <a href="#" onclick="logout()" class="site-nav__link">Logout</a>
-                </li>
+                <% if (isAuthenticated) { %>
+                    <li class="site-nav__item">
+                        <a href="profile" class="site-nav__link">My Profile</a>
+                    </li>
+                    <li class="site-nav__item">
+                       <a href="/logout" class="site-nav__link"">Logout</a>
+                    </li>
                 <% } else { %>
-                
-                <li class="site-nav__item">
-                    <a href="/login" class="site-nav__link">Login</a>
-                </li>
+                    <li class="site-nav__item">
+                        <a href="/login" class="site-nav__link">Login</a>
+                    </li>
                 <% } %>
-
             </ul>
             <!-- Search & Basket -->
             <ul class="site-nav__disclosure">

@@ -3,6 +3,11 @@ const app = express();
 const router = express.Router();
 const auth = require('../middleware/authentication.js');
 const bodyParser = require('body-parser');
+var urlencodedParser = bodyParser.urlencoded({ extended: false });
+const userController = require('../controllers/userController.js');
+const booksController = require('../controllers/booksController.js');
+const ordersController = require('../controllers/ordersController.js');
+const profileController = require('../controllers/profileController.js');
 const validation = require('../middleware/validation.js');
 const { checkCredentials, genToken, fetchUserID, storeUserCreds, checkToken, expireSession } = require('../middleware/db.js');
 //const UserController = require('./controllers/userController.js');
@@ -128,11 +133,14 @@ router.get('/store', storeController.getBooks, (req, res) => {
     console.log("BEFORE RENDER TEMP");
     res.render('bookstoreee', {isAuthenticated: req.isAuthenticated});
 });
+
+router.get('/profile', profileController.getData);
+
+router.delete('/orders/:id', bodyParser.json(), ordersController.deleteOrder);
+
 router.post('/orders', bodyParser.json(), storeController.addOrder);
 
-router.get('/profile', (req, res) => {
-    res.render('profile', {isAuthenticated: req.isAuthenticated});
-});
+
 
 router.get('/login', (req, res) => {
     res.render('login', {isAuthenticated: req.isAuthenticated});
@@ -150,7 +158,7 @@ router.get('/register', (req, res) => {
     res.render('register', {isAuthenticated: req.isAuthenticated});
 });
 
-router.post('/logout', (req, res) => {
+router.get('/logout', (req, res) => {
     expireSession(req.cookies.st);
     res.clearCookie('st', {
         domain: 'localhost',
@@ -160,4 +168,8 @@ router.post('/logout', (req, res) => {
     });
     res.redirect('/');
 });
+
+router.get('/change-password', userController.renderChangePasswordForm);
+router.post('/change-password', urlencodedParser, userController.changePassword);
+router.post('/orders', bodyParser.json(), ordersController.addOrder);
 module.exports = router;
