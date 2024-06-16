@@ -75,7 +75,6 @@ const checkToken = async (token) => {
     }
 };
 
-
 const fetchUserID = async (username, token = null) => {
     try{
 
@@ -216,19 +215,15 @@ const checkCredentials = async (reqUsername, reqPassword) => {
         
         
         if(reqUsername){
-            const salt = await fetchSalt(0, reqUsername);
-            const hashedPword = await hashPass(reqPassword, salt);
-            console.log("Salt = "+salt+"\nHashed Pword ="+ hashedPword[0]);
-            const result = await connection.execute('SELECT COUNT(*) AS count FROM users WHERE username = ? AND password_hash = ?', [reqUsername, hashedPword[0]]);
-            console.log(result);
+            const [rows, fields] = await connection.execute('SELECT password_hash FROM users WHERE username = ?', [reqUsername]);
 
             // Close db connection
             await connection.release();
-
-            const count = result[0][0]['count'];
-            console.log("The result of count for result is: "+count);
-
-            return count;
+            if(bcrypt.compare(reqPassword, rows[0].password_hash)){
+                return 1;
+            } else {
+                return 0;
+            }
         } else{
             throw new Error('Username was not a valid value type. Expected String');
         }
@@ -314,7 +309,35 @@ const hashPass = async (pass, Psalt = null) => {
     // Extract the salt from the hash string
   };
 
-
+const updatePass = async (currpass, newpass, token) => {
+            try {
+                const connection = await pool.getConnection();
+                const userId = await fetchUserID(null, token); // Assuming user is authenticated and user ID is stored in req.user
+                
+                const [rows, fields] = await connection.execute('SELECT password_hash FROM users WHERE id = ?', [userId]);
+        
+                if (rows[0].password_hash === 0) {
+                    return 0;
+                }
+                console.log(rows[0]);
+                // Check if current password is correct
+                const validPassword = await bcrypt.compare(currpass, rows[0].password_hash);
+                if (!validPassword) {
+                    return 1;
+                }
+        
+                // Hash the new password
+                const hashedPassword = await bcrypt.hash(newpass, 10);
+                await connection.execute('UPDATE users SET password_hash = ? WHERE id = ?', [hashedPassword, userId]);
+                connection.release();                
+                console.log('SUCCESS-CHANGED');
+                return 2;
+            } 
+            catch (error) {
+             throw error;   
+            }
+            
+};
 module.exports = {
     createConnection, 
     fetchTokenInfo,
@@ -325,7 +348,8 @@ module.exports = {
      extendExpiry,
      expireSession,
      storeUserCreds,
-     checkToken
+     checkToken,
+     updatePass
 };
 // TO DO:
 // Need to adjust db sessions table slightly to adjust for new gen token function.

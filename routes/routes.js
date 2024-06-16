@@ -48,7 +48,7 @@ router.post('/login', async (req, res) => {
                 req.user = {id: userId, username: username};
                 res.redirect('/store');
             }else{
-                res.render('login', { error: 'Incorrect username or password' });
+                res.render('login', {isAuthenticated: req.isAuthenticated});
             }
         } catch (error) {
             console.log(error); // Logging throughout app is currently only during development. If pushed to production, there would be no verbose error messages to prevent attackers enumerating backend
@@ -98,7 +98,7 @@ router.post('/register', async (req, res) => {
                 </script>
               `);
             } else{
-                res.render('register', { error: 'Sorry, an error occurred. Try again later.' });
+                res.render('register', { error: 'Sorry, an error occurred. Try again later.', isAuthenticated: req.isAuthenticated });
             }
         } catch (error) {
             console.log(error); // Logging throughout app is currently only during development. If pushed to production, there would be no verbose error messages to prevent attackers enumerating backend
