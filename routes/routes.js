@@ -138,8 +138,7 @@ router.get('/profile', profileController.getData);
 
 router.delete('/orders/:id', bodyParser.json(), ordersController.deleteOrder);
 
-router.post('/orders', bodyParser.json(), storeController.addOrder);
-
+router.post('/orders', bodyParser.json(), ordersController.addOrder);
 
 
 router.get('/login', (req, res) => {
@@ -171,5 +170,4 @@ router.get('/logout', (req, res) => {
 
 router.get('/change-password', userController.renderChangePasswordForm);
 router.post('/change-password', urlencodedParser, userController.changePassword);
-router.post('/orders', bodyParser.json(), ordersController.addOrder);
 module.exports = router;

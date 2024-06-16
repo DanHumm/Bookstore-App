@@ -1,7 +1,6 @@
 const bcrypt = require('bcrypt'); // For password hashing
 const userModel = require('../models/userModel');
 const { validatePassword } = require('../middleware/validation');
-const dbMiddleware = require('../middleware/db');
 
 // ----------------------------------------------------- READ --------------------------------------------------------------------------------
 
@@ -28,12 +27,7 @@ async function getUserData(req, res) {
 
 
 async function renderChangePasswordForm(req, res) {
-    if(req.isAuthenticated){
-        res.render('password', {isAuthenticated: req.isAuthenticated}); // Render the EJS template
-    }
-    else {
-        res.redirect('/login');
-    }
+    res.render('password'); // Render the EJS template
 }
 
 // ----------------------------------------------------- UPDATE --------------------------------------------------------------------------------
@@ -46,8 +40,7 @@ async function changePassword(req, res) {
         if (!currentPassword || !newPassword || !confirmPassword) {
             return res.status(400).send('All fields are required.');
         }
-
-        // Check if new passwords match
+        
         if (newPassword !== confirmPassword) {
             return res.status(400).send('New passwords do not match.');
         }
@@ -58,30 +51,29 @@ async function changePassword(req, res) {
         }
 
         // Fetch the current user data from the database
-        if(req.cookies.st){
-            const userId = dbMiddleware.fetchUserID(null, req.cookies.st);
-            const user = await db.query('SELECT * FROM users WHERE id = ?', [userId]);
-            if (user.length === 0) {
-                return res.status(404).send('User not found.');
-            }
-             // Check if current password is correct
-            const validPassword = await bcrypt.compare(currentPassword, user[0].password_hash);
-            if (!validPassword) {
-                return res.status(400).send('Current password is incorrect.');
-            }
+        const userId = req.cookies?.['uid'] // Assuming user is authenticated and user ID is stored in req.user
 
-            // Hash the new password
-            const hashedPassword = await bcrypt.hash(newPassword, 10);
 
-            // Update the user's password in the database
-            await db.query('UPDATE users SET password_hash = ? WHERE id = ?', [hashedPassword, userId]);
+        const user = await db.query('SELECT * FROM users WHERE id = ?', [userId]);
 
-            logEvent(userId, 'Password change');
-            res.send('Password changed successfully.');
-        } else {
-            return res.status(400).send('You are not authenticated, please login.');
+        if (user.length === 0) {
+            return res.status(404).send('User not found.');
         }
 
+        // Check if current password is correct
+        const validPassword = await bcrypt.compare(currentPassword, user[0].password);
+        if (!validPassword) {
+            return res.status(400).send('Current password is incorrect.');
+        }
+
+        // Hash the new password
+        const hashedPassword = await bcrypt.hash(newPassword, 10);
+
+        // Update the user's password in the database
+        await db.query('UPDATE users SET password = ? WHERE id = ?', [hashedPassword, userId]);
+
+        logEvent(userId, 'Password change');
+        res.send('Password changed successfully.');
     } catch (error) {
         console.error('Error changing password:', error);
         res.status(500).send('An error occurred while changing the password.');

@@ -56,7 +56,7 @@ async function deleteOrder(req, res) {
     try {
     
         const orderNo = req.params.id; // Get the orderId from the request parameters
-        console.log(orderNo+'ORDER NO');
+        console.log(orderNo);
 
         // Validate the orderId (basic validation)
         if (!orderNo) {
